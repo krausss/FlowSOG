@@ -1,11 +1,5 @@
-<?xml version="1.0"?>
-<definitions name="HelloWorld"
-        targetNamespace="http://de.ustutt.simtech"
-        xmlns:tns="http://de.ustutt.simtech"
-        xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
-        xmlns="http://schemas.xmlsoap.org/wsdl/"
-        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-        >
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://de.ustutt.simtech" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://iaas.uni-stuttgart.de/labs/FlowSOG" name="HelloWorld" targetNamespace="http://de.ustutt.simtech">
 
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      TYPE DEFINITION - List of types participating in this BPEL process 
@@ -13,10 +7,12 @@
      but you can define or import any XML Schema type and use them as part 
      of the message types.
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    <plnk:partnerLinkType name="InventoryPLT">
+    <plnk:role name="InventoryRole" portType="wsdl:InventoryPortType"/>
+  </plnk:partnerLinkType>
+    <import location="http://46.101.159.46:3000/?wsdl" namespace="http://iaas.uni-stuttgart.de/labs/FlowSOG"/>
     <types>
-        <schema attributeFormDefault="unqualified" elementFormDefault="qualified" 
-                targetNamespace="http://de.ustutt.simtech" 
-                xmlns="http://www.w3.org/2001/XMLSchema">
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://de.ustutt.simtech">
 
             <element name="HelloWorldRequest">
                 <complexType>
@@ -42,10 +38,10 @@
      part of the port type defintions
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
     <message name="HelloWorldRequestMessage">
-        <part name="payload" element="tns:HelloWorldRequest"/>
+        <part element="tns:HelloWorldRequest" name="payload"/>
     </message>
     <message name="HelloWorldResponseMessage">
-        <part name="payload" element="tns:HelloWorldResponse"/>
+        <part element="tns:HelloWorldResponse" name="payload"/>
     </message>
 
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -56,7 +52,7 @@
     <!-- portType implemented by the HelloWorld BPEL process -->
     <portType name="HelloWorld">
         <operation name="process">
-            <input  message="tns:HelloWorldRequestMessage" />
+            <input message="tns:HelloWorldRequestMessage"/>
             <output message="tns:HelloWorldResponseMessage"/>
         </operation>
     </portType>   
@@ -73,16 +69,14 @@
      for a web service.
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
     <binding name="HelloWorldBinding" type="tns:HelloWorld">
-    	<soap:binding style="document"
-    		transport="http://schemas.xmlsoap.org/soap/http" />
+    	<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     	<operation name="process">
-    		<soap:operation
-    			soapAction="http://de.ustutt.simtech/process" />
+    		<soap:operation soapAction="http://de.ustutt.simtech/process"/>
     		<input>
-    			<soap:body use="literal" />
+    			<soap:body use="literal"/>
     		</input>
     		<output>
-    			<soap:body use="literal" />
+    			<soap:body use="literal"/>
     		</output>
     	</operation>
     </binding>
@@ -92,8 +86,8 @@
      a service unit.
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
     <service name="HelloWorldService">
-    	<port name="HelloWorldPort" binding="tns:HelloWorldBinding">
-    		<soap:address location="http://localhost:8080/ode/processes/HelloWorld" />
+    	<port binding="tns:HelloWorldBinding" name="HelloWorldPort">
+    		<soap:address location="http://localhost:8080/ode/processes/HelloWorld"/>
     	</port>
     </service>
 </definitions>
