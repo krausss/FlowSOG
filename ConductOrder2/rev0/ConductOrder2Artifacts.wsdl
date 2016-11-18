@@ -17,7 +17,7 @@
             <element name="ConductOrder2Request">
                 <complexType>
                     <sequence>
-                        <element name="input" type="integer"/>
+                        <element name="input" type="string"/>
                     </sequence>
                 </complexType>
             </element>

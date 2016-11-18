@@ -1,0 +1,8 @@
+<tns:input>
+    <tns:products>
+      <tns:product>
+        <tns:productId>44162d90-9315-4acc-980e-cf975c6b9397</tns:productId>
+        <tns:numberOfItems>1</tns:numberOfItems>
+      </tns:product>
+    </tns:products>
+</tns:input>
