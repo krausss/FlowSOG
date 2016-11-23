@@ -13,6 +13,9 @@
     <plnk:partnerLinkType name="OrderPLT">
     <plnk:role name="OrderRole" portType="wsdl:OrderPortType"/>
   </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="ShipmentPLT">
+    <plnk:role name="ShipmentRole" portType="wsdl:ShipmentPortType"/>
+  </plnk:partnerLinkType>
     <import location="ShopServices.wsdl" namespace="http://iaas.uni-stuttgart.de/labs/FlowSOG"/>
     <types>
         <schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="sog">
@@ -35,35 +38,37 @@
         
             <complexType name="orderInput">
             	<sequence>
-            		<element name="products" type="tns:productsType"></element>
-            		<element name="shippingAddress" type="string"></element>
-            		<element name="paymentDetails"
-            			type="tns:paymentType">
-            		</element>
+            		<element name="products" type="tns:productsType"/>
+            		<element name="shippingAddress" type="string"/>
+            		<element name="paymentDetails" type="tns:paymentType">
+            		</element>
+
             	</sequence>
             </complexType>
         
             <complexType name="productsType">
             	<sequence>
-            		<element name="product" type="tns:productType" minOccurs="1" maxOccurs="unbounded"></element>
+            		<element maxOccurs="unbounded" minOccurs="1" name="product" type="tns:productType"/>
             	</sequence>
             </complexType>
             
             <complexType name="paymentType">
             	<sequence>
-            		<element name="bankName" type="string"></element>
-            		<element name="bankAddress" type="string"></element>
-            		<element name="accountNr" type="string"></element>
-            		<element name="accountHolderName" type="string"></element>
+            		<element name="bankName" type="string"/>
+            		<element name="bankAddress" type="string"/>
+            		<element name="accountNr" type="string"/>
+            		<element name="accountHolderName" type="string"/>
             	</sequence>
             </complexType>
             
             <complexType name="productType">
             	<sequence>
-            		<element name="productId" type="string"></element>
-            		<element name="numberOfItems" type="integer"></element>
+            		<element name="productId" type="string"/>
+            		<element name="numberOfItems" type="integer"/>
             	</sequence>
             </complexType>
+        
+        
         </schema>
     </types>
 

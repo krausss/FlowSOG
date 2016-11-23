@@ -2,7 +2,7 @@
 <deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:FlowSOG="http://iaas.uni-stuttgart.de/labs/FlowSOG" xmlns:sog="sog">
   <process name="sog:ConductOrder2">
     <metaData>
-      <mdProperty name="version" value="1"/>
+      <mdProperty name="Version" value="1"/>
     </metaData>
     <active>true</active>
     <retired>false</retired>
@@ -15,6 +15,9 @@
     </invoke>
     <invoke partnerLink="OrderPL">
       <service name="FlowSOG:OrderService" port="OrderPort"/>
+    </invoke>
+    <invoke partnerLink="ShipmentPL">
+      <service name="FlowSOG:ShipmentService" port="ShipmentPort"/>
     </invoke>
   </process>
 </deploy>
