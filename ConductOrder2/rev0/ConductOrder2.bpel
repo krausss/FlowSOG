@@ -24,6 +24,7 @@
 		<bpel:partnerLink name="OrderPL" partnerLinkType="tns:OrderPLT"
 			partnerRole="OrderRole"></bpel:partnerLink>
         <bpel:partnerLink name="ShipmentPL" partnerLinkType="tns:ShipmentPLT" partnerRole="ShipmentRole"></bpel:partnerLink>
+        <bpel:partnerLink name="PaymentPL" partnerLinkType="tns:PaymentPLT" partnerRole="PaymentRole"></bpel:partnerLink>
     </bpel:partnerLinks>
 
 	<!-- ================================================================= -->
@@ -53,6 +54,14 @@
         <bpel:variable name="calcShipmentCostsResponse" messageType="ns:calcShipmentCostsOutput"></bpel:variable>
         
         
+        <bpel:variable name="calcTransactionCostsRequest" messageType="ns:calcTransactionCostsInput"></bpel:variable>
+        <bpel:variable name="calcTransactionCostsResponse" messageType="ns:calcTransactionCostsOutput"></bpel:variable>
+        
+        
+        <bpel:variable name="conductPaymentRequest" messageType="ns:conductPaymentInput"></bpel:variable>
+        <bpel:variable name="conductPaymentResponse" messageType="ns:conductPaymentOutput"></bpel:variable>
+        <bpel:variable name="shipProductsRequest" messageType="ns:shipProductsInput"></bpel:variable>
+        <bpel:variable name="shipProductsResponse" messageType="ns:shipProductsOutput"></bpel:variable>
     </bpel:variables>
 
 	<!-- ================================================================= -->
@@ -180,6 +189,36 @@
         <bpel:invoke name="InvokeStoreOrderDetails" partnerLink="OrderPL" operation="storeOrderDetails" portType="ns:OrderPortType" inputVariable="storeOrderDetailsRequest" outputVariable="storeOrderDetailsResponse"></bpel:invoke>
         <bpel:assign validate="no" name="AssignOrderId">
             <bpel:copy>
+                <bpel:from><bpel:literal><tns:shipProducts xmlns:tns="http://iaas.uni-stuttgart.de/labs/FlowSOG" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <tns:orderId>tns:orderId</tns:orderId>
+  <tns:date>2001-01-01</tns:date>
+</tns:shipProducts>
+</bpel:literal></bpel:from>
+                <bpel:to variable="shipProductsRequest" part="shipProductsInput"></bpel:to>
+            </bpel:copy>
+            <bpel:copy>
+                <bpel:from><bpel:literal><tns:conductPayment xmlns:tns="http://iaas.uni-stuttgart.de/labs/FlowSOG" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <tns:orderId>tns:orderId</tns:orderId>
+  <tns:amount>0.0</tns:amount>
+</tns:conductPayment>
+</bpel:literal></bpel:from>
+                <bpel:to variable="conductPaymentRequest" part="conductPaymentInput"></bpel:to>
+            </bpel:copy>
+            <bpel:copy>
+                <bpel:from><bpel:literal><tns:calcTransactionCosts xmlns:tns="http://iaas.uni-stuttgart.de/labs/FlowSOG" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <tns:orderId>tns:orderId</tns:orderId>
+</tns:calcTransactionCosts>
+</bpel:literal></bpel:from>
+                <bpel:to variable="calcTransactionCostsRequest" part="calcTransactionCostsInput"></bpel:to>
+            </bpel:copy>
+            <bpel:copy>
+                <bpel:from><bpel:literal><tns:calcShipmentCosts xmlns:tns="http://iaas.uni-stuttgart.de/labs/FlowSOG" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <tns:orderId>tns:orderId</tns:orderId>
+</tns:calcShipmentCosts>
+</bpel:literal></bpel:from>
+                <bpel:to variable="calcShipmentCostsRequest" part="calcShipmentCostsInput"></bpel:to>
+            </bpel:copy>
+            <bpel:copy>
                 <bpel:from><bpel:literal><tns:calcOrderCosts xmlns:tns="http://iaas.uni-stuttgart.de/labs/FlowSOG" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <tns:orderId>tns:orderId</tns:orderId>
 </tns:calcOrderCosts>
@@ -194,18 +233,6 @@
                     <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns:orderId]]></bpel:query>
                 </bpel:to>
             </bpel:copy>
-        </bpel:assign>
-        <bpel:invoke name="InvokeCalcOrderCosts" partnerLink="OrderPL" operation="calcOrderCosts" portType="ns:OrderPortType" inputVariable="calcOrderCostsRequest" outputVariable="calcOrderCostsResponse">
-        </bpel:invoke>
-        <bpel:assign validate="no" name="AssignOrderId">
-            
-            <bpel:copy>
-                <bpel:from><bpel:literal><tns:calcShipmentCosts xmlns:tns="http://iaas.uni-stuttgart.de/labs/FlowSOG" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <tns:orderId>tns:orderId</tns:orderId>
-</tns:calcShipmentCosts>
-</bpel:literal></bpel:from>
-                <bpel:to part="calcShipmentCostsInput" variable="calcShipmentCostsRequest"></bpel:to>
-            </bpel:copy>
             <bpel:copy>
                 <bpel:from part="storeOrderDetailsOutput" variable="storeOrderDetailsResponse">
                     <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns:orderId]]></bpel:query>
@@ -215,15 +242,85 @@
                 </bpel:to>
             </bpel:copy>
             
+            <bpel:copy>
+                <bpel:from part="storeOrderDetailsOutput" variable="storeOrderDetailsResponse">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns:orderId]]></bpel:query>
+                </bpel:from>
+                <bpel:to part="calcTransactionCostsInput" variable="calcTransactionCostsRequest">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns:orderId]]></bpel:query>
+                </bpel:to>
+            </bpel:copy>
+            <bpel:copy>
+                <bpel:from part="storeOrderDetailsOutput" variable="storeOrderDetailsResponse">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns:orderId]]></bpel:query>
+                </bpel:from>
+                <bpel:to part="conductPaymentInput" variable="conductPaymentRequest">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns:orderId]]></bpel:query>
+                </bpel:to>
+            </bpel:copy>
+            <bpel:copy>
+                <bpel:from part="storeOrderDetailsOutput" variable="storeOrderDetailsResponse">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns:orderId]]></bpel:query>
+                </bpel:from>
+                <bpel:to part="shipProductsInput" variable="shipProductsRequest">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns:orderId]]></bpel:query>
+                </bpel:to>
+            </bpel:copy>
+        </bpel:assign>
+        <bpel:flow name="CostCalculationFlow"><bpel:invoke name="InvokeCalcOrderCosts" partnerLink="OrderPL" operation="calcOrderCosts" portType="ns:OrderPortType" inputVariable="calcOrderCostsRequest" outputVariable="calcOrderCostsResponse">
+        </bpel:invoke><bpel:invoke name="InvokeCalcShipmentCosts" partnerLink="ShipmentPL" operation="calcShipmentCosts" portType="ns:ShipmentPortType" inputVariable="calcShipmentCostsRequest" outputVariable="calcShipmentCostsResponse"></bpel:invoke><bpel:invoke name="InvokeCalcTransactionCosts" partnerLink="PaymentPL" operation="calcTransactionCosts" portType="ns:PaymentPortType" inputVariable="calcTransactionCostsRequest" outputVariable="calcTransactionCostsResponse"></bpel:invoke></bpel:flow>
+        
+        
+        
+        
+        
+        <bpel:assign validate="no" name="AssignTotalCosts">
+            <bpel:copy>
+                <bpel:from><bpel:literal><tns:conductPayment xmlns:tns="http://iaas.uni-stuttgart.de/labs/FlowSOG" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <tns:orderId>tns:orderId</tns:orderId>
+  <tns:amount>0.0</tns:amount>
+</tns:conductPayment>
+</bpel:literal></bpel:from>
+                <bpel:to variable="conductPaymentRequest" part="conductPaymentInput"></bpel:to>
+            </bpel:copy>
+            <bpel:copy>
+                <bpel:from>
+                    <![CDATA[$calcOrderCostsResponse.calcOrderCostsOutput/ns:orderCosts + $calcShipmentCostsResponse.calcShipmentCostsOutput/ns:shipmentCosts + $calcTransactionCostsResponse.calcTransactionCostsOutput/ns:transactionCosts]]>
+                </bpel:from>
+                <bpel:to part="conductPaymentInput" variable="conductPaymentRequest">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns:amount]]></bpel:query>
+                </bpel:to>
+            </bpel:copy>
             
         </bpel:assign>
-        <bpel:invoke name="InvokeCalcShipmentCosts" partnerLink="ShipmentPL" operation="calcShipmentCosts" portType="ns:ShipmentPortType" inputVariable="calcShipmentCostsRequest" outputVariable="calcShipmentCostsResponse"></bpel:invoke>
+        <bpel:invoke name="InvokeConductPayment" partnerLink="PaymentPL" operation="conductPayment" portType="ns:PaymentPortType" inputVariable="conductPaymentRequest" outputVariable="conductPaymentResponse"></bpel:invoke>
+        
+        <bpel:invoke name="InvokeShipProducts" partnerLink="ShipmentPL" operation="shipProducts" portType="ns:ShipmentPortType" inputVariable="shipProductsRequest" outputVariable="shipProductsResponse"></bpel:invoke>
+        <bpel:assign validate="no" name="AssignOutput">
+            <bpel:copy>
+                <bpel:from><bpel:literal><tns:ConductOrder2Response xmlns:tns="sog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <tns:result>tns:result</tns:result>
+</tns:ConductOrder2Response>
+</bpel:literal></bpel:from>
+                <bpel:to part="payload" variable="output">
+                </bpel:to>
+            </bpel:copy>
+            <bpel:copy>
+                <bpel:from part="shipProductsOutput" variable="shipProductsResponse"></bpel:from>
+                <bpel:to part="payload" variable="output">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                        <![CDATA[tns:result]]>
+                    </bpel:query>
+                </bpel:to>
+            </bpel:copy>
+        </bpel:assign>
         <bpel:reply name="replyOutput" 
                partnerLink="client"
                portType="tns:ConductOrder2"
                operation="process" 
                variable="output"
                />
+        
     </bpel:sequence>
 </bpel:process>
 

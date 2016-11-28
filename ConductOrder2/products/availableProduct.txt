@@ -5,4 +5,11 @@
         <tns:numberOfItems>1</tns:numberOfItems>
       </tns:product>
     </tns:products>
+    <tns:shippingAddress>Gaenseweg 3, 55555 Entenhausen</tns:shippingAddress>
+    <tns:paymentDetails>
+      <tns:bankName>DuckBank</tns:bankName>
+      <tns:bankAddress>123456789</tns:bankAddress>
+      <tns:accountNumber>0000011111</tns:accountNumber>
+      <tns:accountHolderName>Dagobert Duck</tns:accountHolderName>
+    </tns:paymentDetails>
 </tns:input>
