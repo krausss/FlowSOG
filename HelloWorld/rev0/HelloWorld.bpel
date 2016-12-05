@@ -5,12 +5,10 @@
          suppressJoinFailure="yes"
          xmlns:tns="http://de.ustutt.simtech"
          xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-         xmlns:ns="http://iaas.uni-stuttgart.de/labs/FlowSOG">
+         >
 
     <!-- Import the client WSDL -->
-    
-    <bpel:import namespace="http://iaas.uni-stuttgart.de/labs/FlowSOG" location="http://46.101.159.46:3000/?wsdl" importType="http://schemas.xmlsoap.org/wsdl/"></bpel:import>
-    <bpel:import location="HelloWorldArtifacts.wsdl" namespace="http://de.ustutt.simtech" 
+	<bpel:import location="HelloWorldArtifacts.wsdl" namespace="http://de.ustutt.simtech" 
 	        importType="http://schemas.xmlsoap.org/wsdl/" />
          
     <!-- ================================================================= -->         
@@ -23,8 +21,6 @@
                      partnerLinkType="tns:HelloWorld"
                      myRole="HelloWorldProvider"
                      />
-        
-        <bpel:partnerLink name="InventoryPL" partnerLinkType="tns:InventoryPLT" partnerRole="InventoryRole"></bpel:partnerLink>
     </bpel:partnerLinks>
   
     <!-- ================================================================= -->         
@@ -41,8 +37,6 @@
           -->
         <bpel:variable name="output"
                   messageType="tns:HelloWorldResponseMessage"/>
-        <bpel:variable name="InventoryPLResponse" messageType="ns:checkAvailabilityOutput"></bpel:variable>
-        <bpel:variable name="InventoryPLRequest" messageType="ns:checkAvailabilityInput"></bpel:variable>
     </bpel:variables>
 
     <!-- ================================================================= -->         
@@ -50,21 +44,26 @@
     <!-- Set of activities coordinating the flow of messages across the    -->
     <!-- services integrated within this business process                  -->
     <!-- ================================================================= -->         
-    <bpel:sequence name="main"><!-- Receive input from requester. 
+    <bpel:sequence name="main">
+        
+        <!-- Receive input from requester. 
              Note: This maps to operation defined in HelloWorld.wsdl 
              -->
-        <bpel:receive name="receiveInput" partnerLink="client" portType="tns:HelloWorld" operation="process" variable="input" createInstance="yes" />
-        <bpel:assign validate="no" name="AssignProductID">
+        <bpel:receive name="receiveInput" partnerLink="client"
+                 portType="tns:HelloWorld"
+                 operation="process" variable="input"
+                 createInstance="yes"/>
+        <bpel:assign validate="no" name="Assign">
             <bpel:copy>
-                <bpel:from><bpel:literal xml:space="preserve"><tns:HelloWorldResponse xmlns:tns="http://de.ustutt.simtech" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <bpel:from><bpel:literal><tns:HelloWorldResponse xmlns:tns="http://de.ustutt.simtech" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <tns:result>tns:result</tns:result>
-</tns:HelloWorldResponse></bpel:literal></bpel:from>
-                <bpel:to part="checkAvailabilityInput" variable="InventoryPLRequest">
-                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ns:productId]]></bpel:query>
-                </bpel:to>
+</tns:HelloWorldResponse>
+</bpel:literal></bpel:from>
+                <bpel:to variable="output" part="payload"></bpel:to>
             </bpel:copy>
-            <bpel:copy ignoreMissingFromData="no">
-                <bpel:from variable="input">
+            <bpel:copy>
+                <bpel:from part="payload" variable="input">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:input]]></bpel:query>
                 </bpel:from>
                 <bpel:to part="payload" variable="output">
                     <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:result]]></bpel:query>
@@ -73,9 +72,12 @@
         </bpel:assign>
         
         <!-- Generate reply to synchronous request -->
-        <bpel:invoke name="InvokeCheckAvailability" partnerLink="InventoryPL" operation="checkAvailability" portType="ns:InventoryPortType" inputVariable="InventoryPLRequest" outputVariable="InventoryPLResponse"></bpel:invoke>
-        <bpel:reply name="replyOutput" partnerLink="client" portType="tns:HelloWorld" operation="process" variable="output" />
-    
+        <bpel:reply name="replyOutput" 
+               partnerLink="client"
+               portType="tns:HelloWorld"
+               operation="process" 
+               variable="output"
+               />
     </bpel:sequence>
 </bpel:process>
 
