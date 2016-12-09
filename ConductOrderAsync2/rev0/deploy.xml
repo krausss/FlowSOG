@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:FlowSOG="http://iaas.uni-stuttgart.de/labs/FlowSOG" xmlns:sog="sog">
+  <process name="sog:ConductOrder2">
+    <metaData>
+      <mdProperty name="number" value="1"/>
+    </metaData>
+    <active>true</active>
+    <retired>false</retired>
+    <process-events generate="all"/>
+    <provide partnerLink="client">
+      <service name="sog:ConductOrder2Service" port="ConductOrder2Port"/>
+    </provide>
+    <provide partnerLink="InventoryCallbackPL">
+      <service name="FlowSOG:InventoryCallbackService" port="InventoryCallbackPort"/>
+    </provide>
+    <invoke partnerLink="InventoryPL">
+      <service name="FlowSOG:InventoryService" port="InventoryPort"/>
+    </invoke>
+    <invoke partnerLink="OrderPL">
+      <service name="FlowSOG:OrderService" port="OrderPort"/>
+    </invoke>
+    <invoke partnerLink="ShipmentPL">
+      <service name="FlowSOG:ShipmentService" port="ShipmentPort"/>
+    </invoke>
+    <invoke partnerLink="PaymentPL">
+      <service name="FlowSOG:PaymentService" port="PaymentPort"/>
+    </invoke>
+  </process>
+</deploy>

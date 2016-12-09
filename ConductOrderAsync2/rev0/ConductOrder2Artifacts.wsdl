@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="sog" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://iaas.uni-stuttgart.de/labs/FlowSOG" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ConductOrder2" targetNamespace="sog">
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     TYPE DEFINITION - List of types participating in this BPEL process 
+     The BPEL Designer will generate default request and response types
+     but you can define or import any XML Schema type and use them as part 
+     of the message types.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    <plnk:partnerLinkType name="InventoryPLT">
+    <plnk:role name="InventoryRole" portType="wsdl:InventoryPortType"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="OrderPLT">
+    <plnk:role name="OrderRole" portType="wsdl:OrderPortType"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="ShipmentPLT">
+    <plnk:role name="ShipmentRole" portType="wsdl:ShipmentPortType"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="PaymentPLT">
+    <plnk:role name="PaymentRole" portType="wsdl:PaymentPortType"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="InventoryCallbackPLT">
+    <plnk:role name="InventoryCallbackRole" portType="wsdl:InventoryCallbackPortType"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="InventoryPLTtest">
+    <plnk:role name="InventoryRole" portType="wsdl:InventoryPortType"/>
+    <plnk:role name="CallbackRole" portType="wsdl:InventoryCallbackPortType"/>
+  </plnk:partnerLinkType>
+    <vprop:property name="CustomerId" type="xsd:string"/>
+    <vprop:propertyAlias messageType="wsdl:checkAvailabilityAsyncInput" part="checkAvailabilityAsyncInput" propertyName="tns:CustomerId">
+    <vprop:query><![CDATA[/wsdl:customerId]]></vprop:query>
+  </vprop:propertyAlias>
+    <vprop:propertyAlias messageType="wsdl:onFinishCheckAvailabilityInput" part="onFinishCheckAvailabilityInput" propertyName="tns:CustomerId">
+    <vprop:query><![CDATA[/wsdl:customerId]]></vprop:query>
+  </vprop:propertyAlias>
+    <import location="ShopServices.wsdl" namespace="http://iaas.uni-stuttgart.de/labs/FlowSOG"/>
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="sog">
+
+            <element name="ConductOrder2Request">
+                <complexType>
+                    <sequence>
+                        <element name="input" type="tns:orderInput"/>
+                    </sequence>
+                </complexType>
+            </element>
+
+            <element name="ConductOrder2Response">
+                <complexType>
+                    <sequence>
+                        <element name="result" type="string"/>
+                    </sequence>
+                </complexType>
+            </element>
+        
+            <complexType name="orderInput">
+            	<sequence>
+            		<element name="callbackPort" type="string"/>
+            		<element name="customerId" type="string"/>
+            		<element name="products" type="tns:productsType"/>
+            		<element name="shippingAddress" type="string"/>
+            		<element name="paymentDetails" type="tns:paymentType">
+            		</element>
+
+            	</sequence>
+            </complexType>
+        
+            <complexType name="productsType">
+            	<sequence>
+            		<element maxOccurs="unbounded" minOccurs="1" name="product" type="tns:productType"/>
+            	</sequence>
+            </complexType>
+            
+            <complexType name="paymentType">
+            	<sequence>
+            		<element name="bankName" type="string"/>
+            		<element name="bankAddress" type="string"/>
+            		<element name="accountNr" type="string"/>
+            		<element name="accountHolderName" type="string"/>
+            	</sequence>
+            </complexType>
+            
+            <complexType name="productType">
+            	<sequence>
+            		<element name="productId" type="string"/>
+            		<element name="numberOfItems" type="integer"/>
+            	</sequence>
+            </complexType>
+        
+        
+        </schema>
+    </types>
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     MESSAGE TYPE DEFINITION - Definition of the message types used as 
+     part of the port type defintions
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    <message name="ConductOrder2RequestMessage">
+        <part element="tns:ConductOrder2Request" name="payload"/>
+    </message>
+    <message name="ConductOrder2ResponseMessage">
+        <part element="tns:ConductOrder2Response" name="payload"/>
+    </message>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     PORT TYPE DEFINITION - A port type groups a set of operations into
+     a logical service unit.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+
+    <!-- portType implemented by the ConductOrder2 BPEL process -->
+    <portType name="ConductOrder2">
+        <operation name="process">
+            <input message="tns:ConductOrder2RequestMessage"/>
+            <output message="tns:ConductOrder2ResponseMessage"/>
+        </operation>
+    </portType>   
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     PARTNER LINK TYPE DEFINITION
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    <plnk:partnerLinkType name="ConductOrder2">
+        <plnk:role name="ConductOrder2Provider" portType="tns:ConductOrder2"/>
+    </plnk:partnerLinkType>
+    
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     BINDING DEFINITION - Defines the message format and protocol details
+     for a web service.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <binding name="ConductOrder2Binding" type="tns:ConductOrder2">
+    	<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    	<operation name="process">
+    		<soap:operation soapAction="sog/process"/>
+    		<input>
+    			<soap:body use="literal"/>
+    		</input>
+    		<output>
+    			<soap:body use="literal"/>
+    		</output>
+    	</operation>
+    </binding>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     SERVICE DEFINITION - A service groups a set of ports into
+     a service unit.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <service name="ConductOrder2Service">
+    	<port binding="tns:ConductOrder2Binding" name="ConductOrder2Port">
+    		<soap:address location="http://localhost:8080/ode/processes/ConductOrder2"/>
+    	</port>
+    </service>
+</definitions>

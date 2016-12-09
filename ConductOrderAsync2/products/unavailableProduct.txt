@@ -1,0 +1,15 @@
+<tns:input>
+    <tns:products>
+      <tns:product>
+        <tns:productId>66968a93-4ec6-4fa2-bf2d-3b0f59e56738</tns:productId>
+        <tns:numberOfItems>1</tns:numberOfItems>
+      </tns:product>
+    </tns:products>
+    <tns:shippingAddress>Gaenseweg 3, 55555 Entenhausen</tns:shippingAddress>
+    <tns:paymentDetails>
+      <tns:bankName>DuckBank</tns:bankName>
+      <tns:bankAddress>123456789</tns:bankAddress>
+      <tns:accountNumber>0000011111</tns:accountNumber>
+      <tns:accountHolderName>Dagobert Duck</tns:accountHolderName>
+    </tns:paymentDetails>
+</tns:input>

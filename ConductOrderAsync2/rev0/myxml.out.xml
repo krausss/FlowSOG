@@ -1,0 +1,2 @@
+
+  <ns0:checkAvailabilityAsync xmlns:ns0="http://iaas.uni-stuttgart.de/labs/FlowSOG"><tns:callbackUrl xmlns:tns="http://iaas.uni-stuttgart.de/labs/FlowSOG"/><tns:customerId xmlns:tns="http://iaas.uni-stuttgart.de/labs/FlowSOG">6960d444-4699-40c9-8bc7-f8851901278e</tns:customerId><tns:productId xmlns:tns="http://iaas.uni-stuttgart.de/labs/FlowSOG">44162d90-9315-4acc-980e-cf975c6b9397</tns:productId></ns0:checkAvailabilityAsync>
