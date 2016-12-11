@@ -26,11 +26,13 @@
     <plnk:role name="InventoryRole" portType="wsdl:InventoryPortType"/>
     <plnk:role name="CallbackRole" portType="wsdl:InventoryCallbackPortType"/>
   </plnk:partnerLinkType>
+    <vprop:property name="customerId" type="xsd:string"/>
     <vprop:property name="CustomerId" type="xsd:string"/>
-    <vprop:propertyAlias messageType="wsdl:checkAvailabilityAsyncInput" part="checkAvailabilityAsyncInput" propertyName="tns:CustomerId">
+    <vprop:property name="customerID" type="xsd:string"/>
+    <vprop:propertyAlias messageType="wsdl:checkAvailabilityAsyncInput" part="checkAvailabilityAsyncInput" propertyName="tns:customerID">
     <vprop:query><![CDATA[/wsdl:customerId]]></vprop:query>
   </vprop:propertyAlias>
-    <vprop:propertyAlias messageType="wsdl:onFinishCheckAvailabilityInput" part="onFinishCheckAvailabilityInput" propertyName="tns:CustomerId">
+    <vprop:propertyAlias messageType="wsdl:onFinishCheckAvailabilityInput" part="onFinishCheckAvailabilityInput" propertyName="tns:customerID">
     <vprop:query><![CDATA[/wsdl:customerId]]></vprop:query>
   </vprop:propertyAlias>
     <import location="ShopServices.wsdl" namespace="http://iaas.uni-stuttgart.de/labs/FlowSOG"/>

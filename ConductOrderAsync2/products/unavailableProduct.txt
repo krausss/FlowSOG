@@ -1,4 +1,7 @@
-<tns:input>
+<tns:ConductOrder2Request xmlns:tns="sog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <tns:input>
+	<tns:callbackPort>http://46.101.159.46:33400/ode/processes/InventoryCallbackService</tns:callbackPort>
+	<tns:customerId>0000000000</tns:customerId>
     <tns:products>
       <tns:product>
         <tns:productId>66968a93-4ec6-4fa2-bf2d-3b0f59e56738</tns:productId>
@@ -12,4 +15,5 @@
       <tns:accountNumber>0000011111</tns:accountNumber>
       <tns:accountHolderName>Dagobert Duck</tns:accountHolderName>
     </tns:paymentDetails>
-</tns:input>
+  </tns:input>
+</tns:ConductOrder2Request>
