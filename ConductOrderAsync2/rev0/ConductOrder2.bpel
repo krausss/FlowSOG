@@ -407,7 +407,8 @@
 			<bpel:sequence>
                 
                 
-				<bpel:assign validate="no" name="AssignOutput">
+                <bpel:invoke name="InvokeCancelOrder" partnerLink="OrderPL" operation="cancelOrder" portType="ns:OrderPortType" inputVariable="cancelOrderRequest"></bpel:invoke>
+                <bpel:assign validate="no" name="AssignOutput">
 					<bpel:copy>
 						<bpel:from>
 							<bpel:literal>
@@ -430,7 +431,7 @@
 				</bpel:assign>
 				<bpel:reply name="Reply" partnerLink="client" operation="process"
 					portType="tns:ConductOrder2" variable="output"></bpel:reply>
-                <bpel:invoke name="InvokeCancelOrder" partnerLink="OrderPL" operation="cancelOrder" portType="ns:OrderPortType" inputVariable="cancelOrderRequest"></bpel:invoke>
+                
                 <bpel:exit name="Exit"></bpel:exit>
 			</bpel:sequence>
 		</bpel:if>

@@ -238,7 +238,7 @@
   </extensions>
   <extensions>
     <extendedObject href="ConductOrder2.bpel#/"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1481639167423" processName="{sog}ConductOrder2" processVersion="1"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ProcessExtension" modificationStamp="1481649819182" processName="{sog}ConductOrder2" processVersion="2"/>
   </extensions>
   <extensions>
     <extendedObject href="ConductOrder2.bpel#//@activity/@activities.2/@activity/@activities.3"/>
@@ -249,7 +249,7 @@
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="ConductOrder2.bpel#//@activity/@activities.2/@activity/@activities.2"/>
+    <extendedObject href="ConductOrder2.bpel#//@activity/@activities.2/@activity/@activities.0"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
@@ -265,19 +265,19 @@
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
   </extensions>
   <extensions>
+    <extendedObject href="ConductOrder2.bpel#//@activity/@activities.2/@activity/@activities.2"/>
+    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
+  </extensions>
+  <extensions>
     <extendedObject href="ConductOrder2.bpel#//@activity/@activities.2/@activity/@activities.1"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="ConductOrder2.bpel#//@activity/@activities.2/@activity/@activities.0"/>
-    <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:ActivityExtension"/>
-  </extensions>
-  <extensions>
-    <extendedObject href="ConductOrder2.bpel#//@activity/@activities.2/@activity/@activities.0/@copy.1"/>
+    <extendedObject href="ConductOrder2.bpel#//@activity/@activities.2/@activity/@activities.1/@copy.1"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
   </extensions>
   <extensions>
-    <extendedObject href="ConductOrder2.bpel#//@activity/@activities.2/@activity/@activities.0/@copy.0"/>
+    <extendedObject href="ConductOrder2.bpel#//@activity/@activities.2/@activity/@activities.1/@copy.0"/>
     <extensionObject xsi:type="org.eclipse.bpel.ui.uiextensionmodel:CopyExtension"/>
   </extensions>
 </extensionmodel:ExtensionMap>

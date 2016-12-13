@@ -10104,4 +10104,12 @@
     <parentElement elementType="sequence" elementName="" elementXPath="/process/sequence[1]/if[1]/sequence[1]"/>
     <newElement elementType="invoke" elementName="InvokeCancelOrder" elementXPath="/process/sequence[1]/if[1]/sequence[1]/invoke[1]"/>
   </modelChange>
+  <modelChange xsi:type="bplog:StructuralChange" changeReason="ElementRemoved" timestamp="2016-12-13T18:00:28.361+0100">
+    <parentElement elementType="sequence" elementName="" elementXPath="/process/sequence[1]/if[1]/sequence[1]"/>
+    <oldElement elementType="invoke" elementName="InvokeCancelOrder" elementXPath="/process/sequence[1]/if[1]/sequence[1]/invoke[1]"/>
+  </modelChange>
+  <modelChange xsi:type="bplog:StructuralChange" changeReason="ElementAdded" timestamp="2016-12-13T18:00:28.430+0100">
+    <parentElement elementType="sequence" elementName="" elementXPath="/process/sequence[1]/if[1]/sequence[1]"/>
+    <newElement elementType="invoke" elementName="InvokeCancelOrder" elementXPath="/process/sequence[1]/if[1]/sequence[1]/invoke[1]"/>
+  </modelChange>
 </bplog:Log>
