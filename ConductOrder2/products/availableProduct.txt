@@ -1,4 +1,5 @@
-<tns:input>
+<tns:ConductOrder2Request xmlns:tns="sog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <tns:input>
     <tns:products>
       <tns:product>
         <tns:productId>44162d90-9315-4acc-980e-cf975c6b9397</tns:productId>
@@ -12,4 +13,5 @@
       <tns:accountNumber>0000011111</tns:accountNumber>
       <tns:accountHolderName>Dagobert Duck</tns:accountHolderName>
     </tns:paymentDetails>
-</tns:input>
+  </tns:input>
+</tns:ConductOrder2Request>

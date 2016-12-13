@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpdb:Debug xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:bpdb="http://simtech.de/bpel/debug" processName="ConductOrder2" processPath="C:\Users\degelej\Desktop\eclipse_win32\workspace\ConductOrder2\rev0\ConductOrder2.bpel">
-  <globalBreakpoints/>
+  <globalBreakpoints>
+    <breakpoint name="" targetXPath="/process" targetName="ConductOrder2"/>
+  </globalBreakpoints>
   <localBreakpoints>
     <breakpoint name="" targetXPath="/process/sequence[1]/forEach[1]/scope[1]/sequence[1]/invoke[1]" targetName="InvokeCheckAvailability"/>
-    <breakpoint name="" targetXPath="/process/sequence[1]/flow[1]" targetName="Flow"/>
   </localBreakpoints>
 </bpdb:Debug>
