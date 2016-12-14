@@ -109,7 +109,7 @@
 					</bpel:assign>
 					<bpel:invoke name="InvokeCheckAvailability" partnerLink="InventoryPL" operation="checkAvailability" portType="ns:InventoryPortType" inputVariable="checkAvailabilityRequest" outputVariable="checkAvailabilityResponse"></bpel:invoke>
 					<bpel:if name="IfNotAvailable">
-						<bpel:condition><![CDATA[$checkAvailabilityResponse.checkAvailabilityOutput/ns:product[round($Counter)]/ns:status/ns:currentAvailability = "not available"]]></bpel:condition>
+						<bpel:condition><![CDATA[$checkAvailabilityResponse.checkAvailabilityOutput/ns:product/ns:status/ns:currentAvailability = "not available"]]></bpel:condition>
 						<bpel:sequence>
                             <bpel:assign validate="no" name="AssignOutput">
                                 <bpel:copy>
