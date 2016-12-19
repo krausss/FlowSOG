@@ -1,6 +1,6 @@
 <tns:ConductOrder2Request xmlns:tns="sog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <tns:input>
-	<tns:callbackPort>http://46.101.159.46:33330/ode/processes/InventoryCallbackService</tns:callbackPort>
+	<tns:callbackPort>http://46.101.159.46:33001/ode/processes/InventoryCallbackService</tns:callbackPort>
 	<tns:customerId>0000000000</tns:customerId>
     <tns:products>
       <tns:product>
